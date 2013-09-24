@@ -18,7 +18,7 @@
         Debt comes at a price.
     </description>
 
-    <url>http://www.jnape.com/oss/dynamic-collections/</url>
+    <url>http://www.jnape.com/oss/loan-shark/</url>
 
     <licenses>
         <license>
@@ -41,13 +41,6 @@
             <email>john@jnape.com</email>
         </developer>
     </developers>
-
-    <distributionManagement>
-        <site>
-            <id>jnape</id>
-            <url>scp://${site.url}</url>
-        </site>
-    </distributionManagement>
 
     <properties>
         <dynamic-collections.version>1.3</dynamic-collections.version>
