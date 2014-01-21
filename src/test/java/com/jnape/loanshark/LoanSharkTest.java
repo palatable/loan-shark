@@ -96,11 +96,12 @@ public class LoanSharkTest {
         final Todo expiredJustNow = todoCreated(now().minusDays(5));
         final Todo expiredLastMonth = todoCreated(now().minusMonths(1));
 
-        Set elements = (Set) new HashSet<Element>() {{
+        Set elements = new HashSet<Element>() {{
             add(elementWithTodo(fresh));
             add(elementWithTodo(expiredJustNow));
             add(elementWithTodo(expiredLastMonth));
         }};
+
         when(roundEnvironment.getElementsAnnotatedWith(Todo.class)).thenReturn(elements);
 
         loanShark.process(Collections.<TypeElement>emptySet(), roundEnvironment);
@@ -109,8 +110,8 @@ public class LoanSharkTest {
                 Diagnostic.Kind.ERROR,
                 format(
                         "Found expired todos:\n%s\n%s",
-                        todoFormatter.format(expiredLastMonth),
-                        todoFormatter.format(expiredJustNow)
+                        todoFormatter.format(expiredJustNow),
+                        todoFormatter.format(expiredLastMonth)
                 )
         );
     }
