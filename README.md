@@ -1,4 +1,4 @@
-loan-shark
+loan-shark [![Build Status](https://travis-ci.org/palatable/loan-shark.png?branch=master)](https://travis-ci.org/palatable/loan-shark)
 ==========
 
 Debt comes at a price.
