@@ -46,4 +46,9 @@ Then, specify how long `@Todo`s can live in your codebase by specifying the `-Al
 running
 -------
 
-Loan Shark uses an Annotation Processor (JSR 209) to plug in to javac, so simpy running javac (whether by hand, or using Maven/Ant/Gradle) should automatically invoke the Annotation Processors. In case it doesn't, check the command line arguments passed to the Java compiler and ensure you aren't passing -proc:none.
+Loan Shark uses an Annotation Processor (JSR 209) to plug in to javac, so simpy running `javac` (whether by hand, or using Maven/Ant/Gradle) should automatically invoke the Annotation Processors. In case it doesn't, check the command line arguments passed to the Java compiler and ensure you aren't passing `-proc:none`.
+
+license
+-------
+
+_loan-shark_ is part of [palatable](http://www.github.com/palatable), which is distributed under [The MIT License](http://choosealicense.com/licenses/mit/).
