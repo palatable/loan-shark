@@ -9,6 +9,7 @@ public class MaxLifeResolver {
 
     static final String MAX_LIFE_OPTION  = "loanshark.max.life.in.days";
     static final int    DEFAULT_MAX_LIFE = 30;
+
     private final Map<String, String> options;
     private final Messager            messager;
 

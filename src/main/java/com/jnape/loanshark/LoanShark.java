@@ -4,6 +4,7 @@ import com.jnape.dynamiccollection.lambda.MonadicFunction;
 import com.jnape.dynamiccollection.list.DynamicList;
 import com.jnape.loanshark.annotation.Todo;
 import org.joda.time.DateTime;
+import org.joda.time.ReadableInstant;
 import org.joda.time.format.DateTimeFormat;
 
 import javax.annotation.processing.*;
@@ -53,12 +54,12 @@ public class LoanShark extends AbstractProcessor {
                 return todoFormatter.format(todo);
             }
         };
-        MonadicFunction<Todo, String> byCreated = new
+        MonadicFunction<Todo, ReadableInstant> byCreated = new
 
-                MonadicFunction<Todo, String>() {
+                MonadicFunction<Todo, ReadableInstant>() {
                     @Override
-                    public String apply(Todo todo) {
-                        return todo.created();
+                    public ReadableInstant apply(Todo todo) {
+                        return todoCreatedAsDate(todo);
                     }
                 };
         DynamicList<String> errors = list(expiredTodos).sort(byCreated).map(format);
@@ -79,22 +80,34 @@ public class LoanShark extends AbstractProcessor {
         for (Element debtor : debtors) {
             Todo todo = debtor.getAnnotation(Todo.class);
 
-            DateTime todoCreationDate = DateTime.parse(todo.created(), DateTimeFormat.forPattern(CREATED_FORMAT));
-            if (todoCreationDate.isAfter(now()))
-                processingEnv.getMessager().printMessage(
-                        Diagnostic.Kind.ERROR,
-                        format(
-                                "Oh really? You've created a Todo in the future, have you? How interesting for you.\n%s",
-                                todoFormatter.format(todo)
-                        )
-                );
+            failIfFromTheFuture(todo);
 
+            DateTime todoCreationDate = todoCreatedAsDate(todo);
             DateTime todoExpirationDate = todoCreationDate.plusDays(todoMaxLife);
             DateTime today = now();
+
             if (!today.isBefore(todoExpirationDate))
                 expiredTodos.add(todo);
         }
 
         return expiredTodos;
     }
+
+    private void failIfFromTheFuture(Todo todo) {
+        DateTime todoCreationDate = todoCreatedAsDate(todo);
+
+        if (todoCreationDate.isAfter(now()))
+            processingEnv.getMessager().printMessage(
+                    Diagnostic.Kind.ERROR,
+                    format(
+                            "Oh really? You've created a Todo in the future, have you? How interesting for you.\n%s",
+                            todoFormatter.format(todo)
+                    )
+            );
+    }
+
+    private DateTime todoCreatedAsDate(Todo todo) {
+        return DateTime.parse(todo.created(), DateTimeFormat.forPattern(CREATED_FORMAT));
+    }
+
 }

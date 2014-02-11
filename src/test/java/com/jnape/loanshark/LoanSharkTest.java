@@ -110,8 +110,8 @@ public class LoanSharkTest {
                 Diagnostic.Kind.ERROR,
                 format(
                         "Found expired todos:\n%s\n%s",
-                        todoFormatter.format(expiredJustNow),
-                        todoFormatter.format(expiredLastMonth)
+                        todoFormatter.format(expiredLastMonth),
+                        todoFormatter.format(expiredJustNow)
                 )
         );
     }
